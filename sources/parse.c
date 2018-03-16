@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 14:13:34 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/16 16:02:51 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,9 +26,27 @@ int		is_ants(char *str)
 
 int		is_command(char *str)
 {
+	int		len;
 
+	if ((len = ft_strlen(str)) < 2)
+		return (0);
+	if (str[0] != '#' || str[1] != '#')
+		return (0);
+	if (ft_strchr(str, "start") && len == 7 || ft_strchr("end") && len == 5)
+		return (1);
+	return (0);
 }
 
+int		is_comment(char *str)
+{
+	int		len;
+
+	if ((len = ft_strlen(str)) < 1)
+		return (0);
+	if (str[0] != '#')
+		return (0);
+	return (1);
+}
 
 char	**read_file()
 {
