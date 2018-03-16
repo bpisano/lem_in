@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/15 18:44:38 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 13:35:25 by anamsell    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/16 14:17:09 by anamsell    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,8 @@
 # include "libft.h"
 
 # define MALLCHECK(x) if (!x) return (-1);
+
+# define SCORE_MAX 2000000000;
 
 typedef struct	s_room
 {
