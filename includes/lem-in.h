@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/15 18:44:38 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 12:19:51 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/16 12:55:39 by anamsell    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,8 @@
 # define LEM-IN_H
 
 # include "libft.h"
+
+# define MALLCHECK(x) if (!x) return (-1);
 
 typedef struct	s_room
 {
