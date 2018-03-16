@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/15 18:44:38 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 12:55:39 by anamsell    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/16 13:35:25 by anamsell    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,6 +23,7 @@ typedef struct	s_room
 	char		*name;
 	int			x;
 	int			y;
+	int			score;
 	t_room		**link;
 }				t_room;
 
@@ -32,6 +33,6 @@ typedef struct	s_data
 	t_room		*end;
 	int			room_nbr;
 	int			ants;
-}				t_lem;
+}				t_data;
 
 #endif
