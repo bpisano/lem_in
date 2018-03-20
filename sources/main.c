@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lem-in.h                                         .::    .:/ .      .::   */
+/*   main.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/03/15 18:44:38 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 14:17:09 by anamsell    ###    #+. /#+    ###.fr     */
+/*   Created: 2018/03/19 13:47:10 by bpisano      #+#   ##    ##    #+#       */
+/*   Updated: 2018/03/19 13:50:03 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef LEM-IN_H
-# define LEM-IN_H
+#include "lem_in.h"
 
-# include "libft.h"
-
-# define MALLCHECK(x) if (!x) return (-1);
-
-# define SCORE_MAX 2000000000;
-
-typedef struct	s_room
+int		main(void)
 {
-	char		*name;
-	int			x;
-	int			y;
-	int			score;
-	t_room		**link;
-}				t_room;
-
-typedef struct	s_data
-{
-	t_room		*start;
-	t_room		*end;
-	int			room_nbr;
-	int			ants;
-}				t_data;
-
-#endif
+	t_data data;
+	parse_data(&data);
+	return (0);
+}

@@ -6,19 +6,9 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 14:01:41 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/16 14:14:01 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/20 15:17:38 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "lem-in"
-
-void	add_room(t_data *d, char **str)
-{
-
-}
-
-void	link_room(t_data *d, char **str)
-{
-
-}
+#include "lem_in.h"

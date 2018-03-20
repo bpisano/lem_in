@@ -6,7 +6,7 @@
 #    By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 18:40:16 by bpisano      #+#   ##    ##    #+#        #
-#    Updated: 2018/03/16 15:21:50 by bpisano     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/03/19 19:25:07 by bpisano     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -15,6 +15,8 @@ NAME = lem-in
 
 SRC = sources/main.c			\
 	  sources/parse.c			\
+	  sources/parse_type.c		\
+	  sources/array_manager.c	\
 	  sources/room_manager.c	\
 	  sources/data_manager.c	\
 
