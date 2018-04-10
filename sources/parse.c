@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/20 20:13:01 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/21 13:09:20 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,8 +36,14 @@ void	set_links(ft_array tubs, ft_array rooms)
 	while (tubs[++i])
 	{
 		link_names((char *)tubs[i], &n1, &n2);
-		MALLCHECK((r1 = room_named(rooms, n1)));	
-		MALLCHECK((r2 = room_named(rooms, n2)));
+		r1 = room_named(rooms, n1);
+		r2 = room_named(rooms, n2);
+		if (!r1 || !r2)
+		{
+			r1 ? free(n1) : 0;
+			r2 ? free(n2) : 0;
+			continue ;
+		}
 		ar_append(&(r1->link), (t_room *)r2);
 		ar_append(&(r2->link), (t_room *)r1);
 		free(n1);
@@ -114,24 +120,11 @@ void	parse_data(t_data *d)
 	set_rooms(d, rooms, &final_rooms);
 	set_links(tubs, final_rooms);
 
+	/*
 	i = -1;
 	while (((d->start)->link)[++i])
 	{
 		printf("start linked to : %s\n", ((t_room *)((d->start)->link)[i])->name);
 	}
-	printf("start name : %s\n", (d->start)->name);
-	/*
-	   while (str[++i])
-	   {
-	   if (is_ants(str[i]))
-	   data->ants = ft_atoi(str[i]);
-	   else if (is_command(str[i]))
-	   set_command(data, str[i], str[i + 1]);
-	   else if (is_comment(str[i]))
-	   i = i;
-	   else if (is_room(str[i]))
-	   add_room(data, str + i);
-	   else
-	   return ;
-	   }*/
+	printf("start name : %s\n", (d->start)->name);*/
 }

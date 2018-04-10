@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/19 19:21:03 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/20 14:32:28 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/03/21 12:49:54 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,7 @@ int		ar_init(ft_array *array, size_t size)
 	if (!(*array = (ft_array)malloc(sizeof(void *) * (size + 1))))
 		return (0);
 	i = 0;
+	size = size == 0 ? 1 : size;
 	while (i < (int)size)
 		(*array)[i++] = NULL;
 	return (1);
