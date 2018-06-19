@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/19 15:26:36 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/14 14:22:56 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 18:07:37 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,11 +60,11 @@ int		is_tub(char *str)
 	digit = 0;
 	hash = 0;
 	i = -1;
-	while (ft_isdigit(str[++i]) && str[i])
+	while (ft_isalnum(str[++i]) && str[i])
 		digit = 1;
 	if (str[i] == '-')
 		hash = 1;
-	while (ft_isdigit(str[++i]) && str[i])
+	while (ft_isalnum(str[++i]) && str[i])
 		digit = 2;
 	return (digit == 2 && hash == 1);
 }
