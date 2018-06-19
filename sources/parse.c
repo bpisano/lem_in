@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 16:13:17 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 16:32:05 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,6 +44,23 @@ static int	get_ants(t_parse *p)
 	return (1);
 }
 
+static int	handle_cmd(char *line, t_parse *p)
+{
+	if (is_room(line) && p->is_start == 1)
+	{
+		p->start = new_room_named(line);
+		p->is_start = -1;
+	}
+	else if (is_room(line) && p->is_end == 1)
+	{
+		p->end = new_room_named(line);
+		p->is_end = -1;
+	}
+	else
+		return (0);
+	return (1);
+}
+
 /*
  ** Returns all the data of a file in a t_array.
 */
@@ -54,22 +71,16 @@ static int	get_data(t_parse *p)
 
 	while (get_next_line(0, &line) > 0)
 	{
+		if (ft_strcmp(line, "") == 0)
+			return (1);
 		if (is_room(line))
 			ar_append(&(p->rooms), new_room_named(line));
 		if (is_start(line) && p->is_start == 0 && p->is_end <= 0)
 			p->is_start = 1;
 		else if (is_end(line) && p->is_start <= 0 && p->is_end == 0)
 			p->is_end = 1;
-		else if (is_room(line) && p->is_start == 1)
-		{
-			p->start = new_room_named(line);
-			p->is_start = -1;
-		}
-		else if (is_room(line) && p->is_end == 1)
-		{
-			p->end = new_room_named(line);
-			p->is_end = -1;
-		}
+		else if (handle_cmd(line, p))
+			;
 		else if (is_tub(line))
 			ar_append(&(p->tubs), line);
 		else if (is_comment(line))
@@ -92,16 +103,19 @@ int			parse(t_data *d)
 	init_parse_data(&parse_data);
 	if (!get_ants(&parse_data) || !get_data(&parse_data))
 	{
+		printf("0\n");
 		handle_error(&parse_data);
 		return (0);
 	}
 	if (!parse_data.start || !parse_data.end)
 	{
+		printf("1\n");
 		handle_error(&parse_data);
 		return (0);
 	}
 	if (!link_rooms(&parse_data))
 	{
+		printf("2\n");
 		handle_error(&parse_data);
 		return (0);
 	}
