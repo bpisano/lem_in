@@ -6,7 +6,7 @@
 /*   By: anamsell <anamsell@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/19 21:19:38 by anamsell     #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/15 15:11:16 by anamsell    ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 15:53:14 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,7 +116,11 @@ int		main(void)
 
 	if (!(data.pos = ft_memalloc(sizeof(void *) * (data.room_nbr))))
 		return (0);
-	parse(&data);
+	if(!parse(&data))
+	{
+		free(data.pos);
+		return (0);
+	}
 	data.nb_turnmax = data.ants + data.room_nbr - 1;
 	resolve(&data);
 //	printf("%s", ((t_room *)(data.start->link[1]))->name);

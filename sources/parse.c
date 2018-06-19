@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/18 19:45:53 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 16:13:17 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -54,16 +54,22 @@ static int	get_data(t_parse *p)
 
 	while (get_next_line(0, &line) > 0)
 	{
-		if (is_start(line) && !p->is_start && !p->is_end)
-			p->is_start = 1;
-		else if (is_end(line) && !p->is_start && !p->is_end)
-			p->is_end = 1;
-		else if (is_room(line) && p->is_start)
-			p->start = new_room_named(line);
-		else if (is_room(line) && p->is_end)
-			p->end = new_room_named(line);
-		else if (is_room(line))
+		if (is_room(line))
 			ar_append(&(p->rooms), new_room_named(line));
+		if (is_start(line) && p->is_start == 0 && p->is_end <= 0)
+			p->is_start = 1;
+		else if (is_end(line) && p->is_start <= 0 && p->is_end == 0)
+			p->is_end = 1;
+		else if (is_room(line) && p->is_start == 1)
+		{
+			p->start = new_room_named(line);
+			p->is_start = -1;
+		}
+		else if (is_room(line) && p->is_end == 1)
+		{
+			p->end = new_room_named(line);
+			p->is_end = -1;
+		}
 		else if (is_tub(line))
 			ar_append(&(p->tubs), line);
 		else if (is_comment(line))
@@ -89,7 +95,12 @@ int			parse(t_data *d)
 		handle_error(&parse_data);
 		return (0);
 	}
-	if (!parse_data.start || !parse_data.end || !link_rooms(&parse_data))
+	if (!parse_data.start || !parse_data.end)
+	{
+		handle_error(&parse_data);
+		return (0);
+	}
+	if (!link_rooms(&parse_data))
 	{
 		handle_error(&parse_data);
 		return (0);
@@ -99,7 +110,9 @@ int			parse(t_data *d)
 	d->room_nbr = ar_count(parse_data.rooms);
 	d->ants = parse_data.ants;
 
-	/*
+	// Print result
+	printf("start : %s\n", d->start->name);
+	printf("end : %s\n", d->end->name);
 	int i = -1;
 	while (parse_data.rooms[++i])
 	{
@@ -110,6 +123,6 @@ int			parse(t_data *d)
 		{
 			printf("\tlinked to : %s\n", ((t_room *)r->link[j])->name);
 		}
-	}*/
+	}
 	return (1);
 }
