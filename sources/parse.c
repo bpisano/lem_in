@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 16:32:05 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 17:35:37 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,11 +48,13 @@ static int	handle_cmd(char *line, t_parse *p)
 {
 	if (is_room(line) && p->is_start == 1)
 	{
+		ar_append(&(p->rooms), new_room_named(line));
 		p->start = new_room_named(line);
 		p->is_start = -1;
 	}
 	else if (is_room(line) && p->is_end == 1)
 	{
+		ar_append(&(p->rooms), new_room_named(line));
 		p->end = new_room_named(line);
 		p->is_end = -1;
 	}
@@ -72,15 +74,15 @@ static int	get_data(t_parse *p)
 	while (get_next_line(0, &line) > 0)
 	{
 		if (ft_strcmp(line, "") == 0)
-			return (1);
-		if (is_room(line))
-			ar_append(&(p->rooms), new_room_named(line));
+			return (1);	
 		if (is_start(line) && p->is_start == 0 && p->is_end <= 0)
 			p->is_start = 1;
 		else if (is_end(line) && p->is_start <= 0 && p->is_end == 0)
 			p->is_end = 1;
 		else if (handle_cmd(line, p))
 			;
+		else if (is_room(line))
+			ar_append(&(p->rooms), new_room_named(line));
 		else if (is_tub(line))
 			ar_append(&(p->tubs), line);
 		else if (is_comment(line))
