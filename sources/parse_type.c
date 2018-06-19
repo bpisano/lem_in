@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/19 15:26:36 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/03/20 15:23:05 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/14 14:22:56 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ int		is_ants(char *str)
 	return (1);
 }
 
-int		is_command(char *str)
+int		is_cmd(char *str)
 {
 	int		hashtag;
 	int		command;
@@ -66,7 +66,7 @@ int		is_tub(char *str)
 		hash = 1;
 	while (ft_isdigit(str[++i]) && str[i])
 		digit = 2;
-	return (digit == 2 && hash == 1); 
+	return (digit == 2 && hash == 1);
 }
 
 int		is_room(char *str)
@@ -90,5 +90,5 @@ int		is_room(char *str)
 		spaces = 2;
 	while (ft_isdigit(str[++i]) && str[i])
 		digit = 2;
-	return (name == 1 && digit == 2 && spaces == 2); 
+	return (name == 1 && digit == 2 && spaces == 2);
 }

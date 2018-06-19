@@ -6,7 +6,7 @@
 #    By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 18:40:16 by bpisano      #+#   ##    ##    #+#        #
-#    Updated: 2018/03/19 19:25:07 by bpisano     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/06/08 19:42:29 by bpisano     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -14,18 +14,21 @@
 NAME = lem-in
 
 SRC = sources/main.c			\
+	  sources/display.c			\
 	  sources/parse.c			\
 	  sources/parse_type.c		\
-	  sources/array_manager.c	\
+	  sources/cmd_manager.c		\
 	  sources/room_manager.c	\
-	  sources/data_manager.c	\
 
 OBJECTS = $(SRC:.c=.o)
 
 LIB = libft.a
 
+LIBAR = libarray.a
+
 HEADS = -I ./includes			\
 		-I ./libft/includes		\
+		-I ./ft_array			\
 
 FLAGS = -Wall -Werror -Wextra
 
@@ -38,10 +41,13 @@ END = \033[0m
 all: $(NAME)
 
 $(LIB):
-	@(make -C libft)
+	@make -C libft
 
-$(NAME): $(LIB) $(OBJECTS)
-	@gcc -o $(NAME) $(OBJECTS) libft/$(LIB)
+$(LIBAR):
+	@make -C ft_array
+
+$(NAME): $(LIB) $(LIBAR) $(OBJECTS)
+	@gcc -o $(NAME) $(OBJECTS) libft/$(LIB) ft_array/$(LIBAR)
 	@echo "$(BLUE)$(NAME)\033[500D\033[42C$(GREEN)[DONE]$(END)"
 
 %.o : %.c
@@ -52,9 +58,11 @@ $(NAME): $(LIB) $(OBJECTS)
 clean:
 	@rm -f $(OBJECTS)
 	@make clean -C libft
+	@make clean -C ft_array
 
 fclean: clean
 	@rm -f $(NAME)
 	@make fclean -C libft
+	@make fclean -C ft_array
 
 re: fclean all
