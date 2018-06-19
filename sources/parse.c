@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 17:35:37 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/19 17:49:32 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,16 +46,19 @@ static int	get_ants(t_parse *p)
 
 static int	handle_cmd(char *line, t_parse *p)
 {
+	t_room	*new_room;
+
+	new_room = new_room_named(line);
 	if (is_room(line) && p->is_start == 1)
 	{
-		ar_append(&(p->rooms), new_room_named(line));
-		p->start = new_room_named(line);
+		ar_append(&(p->rooms), new_room);
+		p->start = new_room;
 		p->is_start = -1;
 	}
 	else if (is_room(line) && p->is_end == 1)
 	{
-		ar_append(&(p->rooms), new_room_named(line));
-		p->end = new_room_named(line);
+		ar_append(&(p->rooms), new_room);
+		p->end = new_room;
 		p->is_end = -1;
 	}
 	else
