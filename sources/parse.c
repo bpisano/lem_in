@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   parse.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: anamsell <anamsell@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 18:08:06 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/25 19:53:47 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,39 +35,29 @@ static void	init_parse_data(t_parse *p)
 static int	get_ants(t_parse *p)
 {
 	char	*line;
+	int		ret;
 
-	if (!get_next_line(0, &line))
-		return (0);
-	if (!is_ants(line))
-		return (0);
-	p->ants = ft_atoi(line);
-	return (1);
-}
-
-/*
- ** Handle a command to add the start and end room.
-*/
-
-static int	handle_cmd(char *line, t_parse *p)
-{
-	t_room	*new_room;
-
-	new_room = new_room_named(line);
-	if (is_room(line) && p->is_start == 1)
+	while ((ret = get_next_line(0, &line)) > 0)
 	{
-		ar_append(&(p->rooms), new_room);
-		p->start = new_room;
-		p->is_start = -1;
+		if (is_ants(line))
+		{
+			p->ants = ft_atoi(line);
+			free(line);
+			return (1);
+		}
+		else if (is_comment(line))
+		{
+			free(line);
+			continue ;
+		}
+		else
+		{
+			free(line);
+			return (0);
+		}
+		free(line);
 	}
-	else if (is_room(line) && p->is_end == 1)
-	{
-		ar_append(&(p->rooms), new_room);
-		p->end = new_room;
-		p->is_end = -1;
-	}
-	else
-		return (0);
-	return (1);
+	return (0);
 }
 
 /*
@@ -80,24 +70,26 @@ static int	get_data(t_parse *p)
 
 	while (get_next_line(0, &line) > 0)
 	{
-		if (ft_strcmp(line, "") == 0)
-			return (1);	
-		if (is_start(line) && p->is_start == 0 && p->is_end <= 0)
-			p->is_start = 1;
-		else if (is_end(line) && p->is_start <= 0 && p->is_end == 0)
-			p->is_end = 1;
-		else if (handle_cmd(line, p))
+		if (!ft_strcmp(line, ""))
+		{
+			free(line);
+			return (1);
+		}
+		if (handle_cmd(line, p) || handle_cmd_room(line, p))
 			;
 		else if (is_room(line))
 			ar_append(&(p->rooms), new_room_named(line));
 		else if (is_tub(line))
 			ar_append(&(p->tubs), line);
 		else if (is_comment(line))
+		{
+			free(line);
 			continue ;
+		}
 		else
 			return (0);
 	}
-	return (1);
+	return (0);
 }
 
 /*
@@ -112,19 +104,11 @@ int			parse(t_data *d)
 	init_parse_data(&parse_data);
 	if (!get_ants(&parse_data) || !get_data(&parse_data))
 	{
-		printf("0\n");
 		handle_error(&parse_data);
 		return (0);
 	}
-	if (!parse_data.start || !parse_data.end)
+	if (!parse_data.start || !parse_data.end || !link_rooms(&parse_data))
 	{
-		printf("1\n");
-		handle_error(&parse_data);
-		return (0);
-	}
-	if (!link_rooms(&parse_data))
-	{
-		printf("2\n");
 		handle_error(&parse_data);
 		return (0);
 	}
@@ -132,20 +116,7 @@ int			parse(t_data *d)
 	d->end = parse_data.end;
 	d->room_nbr = ar_count(parse_data.rooms);
 	d->ants = parse_data.ants;
-
-	// Print result
-	printf("start : %s\n", d->start->name);
-	printf("end : %s\n", d->end->name);
-	int i = -1;
-	while (parse_data.rooms[++i])
-	{
-		t_room *r = (t_room *)parse_data.rooms[i];
-		printf("room : %s\n", r->name);
-		int j = -1;
-		while (r->link[++j])
-		{
-			printf("\tlinked to : %s\n", ((t_room *)r->link[j])->name);
-		}
-	}
+	d->rooms = parse_data.rooms;
+	free_parse(&parse_data);
 	return (1);
 }

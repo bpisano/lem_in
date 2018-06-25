@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 13:19:07 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/18 19:38:39 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/25 19:52:53 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,7 +17,7 @@
  ** Init a new t_room with a given room data line.
 */
 
-t_room	*new_room_named(char *str)
+t_room			*new_room_named(char *str)
 {
 	int		i;
 	t_room	*new;
@@ -27,7 +27,11 @@ t_room	*new_room_named(char *str)
 		return (NULL);
 	while (ft_isalnum(str[++i]))
 		;
-	new->name = ft_strsub(str, 0, i);
+	new->name = ft_strnew(i);
+	i = -1;
+	while (ft_isalnum(str[++i]))
+		new->name[i] = str[i];
+	free(str);
 	new->x = 0;
 	new->y = 0;
 	new->ants = 0;
@@ -35,6 +39,19 @@ t_room	*new_room_named(char *str)
 	new->c_score = SCORE_MAX;
 	ar_init(&(new->link), 1);
 	return (new);
+}
+
+/*
+ ** Free a entire room.
+*/
+
+void			free_room(t_room *r)
+{
+	free(r->name);
+	free(r->link);
+	if (r->ants)
+		free(r->ants);
+	free(r);
 }
 
 /*
@@ -47,13 +64,11 @@ static t_room	*room_named(t_array rooms, char *name)
 	int		i;
 
 	i = -1;
-	(void)name;
 	while (rooms[++i])
-		if (ft_strcmp(((t_room *)rooms[i])->name, name) == 0)
+		if (ft_strcmp(((t_room *)(rooms[i]))->name, name) == 0)
 			return ((t_room *)rooms[i]);
 	return (NULL);
 }
-
 
 /*
  ** Fetch the 2 rooms in pointers with a given data line
@@ -83,6 +98,8 @@ static int		get_link_rooms(char *line, t_parse *p, t_room **r1, t_room **r2)
 		free(split);
 		return (0);
 	}
+	free(n1);
+	free(n2);
 	free(split);
 	return (1);
 }

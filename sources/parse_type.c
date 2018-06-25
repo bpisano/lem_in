@@ -6,7 +6,7 @@
 /*   By: bpisano <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/19 15:26:36 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/19 18:07:37 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/25 16:44:25 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,25 +26,14 @@ int		is_ants(char *str)
 
 int		is_cmd(char *str)
 {
-	int		hashtag;
-	int		command;
-	int		i;
-
-	hashtag = 0;
-	command = 0;
-	i = -1;
-	while (str[++i] == '#' && str[i])
-		hashtag++;
-	if (!ft_strcmp(str + i, "start") || !ft_strcmp(str + i, "end"))
-		command = 1;
-	return (hashtag == 2 && command == 1);
+	return (is_start(str) || is_end(str));
 }
 
 int		is_comment(char *str)
 {
 	int		len;
 
-	if ((len = ft_strlen(str)) < 1)
+	if ((len = ft_strlen(str)) < 1 || is_cmd(str))
 		return (0);
 	if (str[0] != '#')
 		return (0);
