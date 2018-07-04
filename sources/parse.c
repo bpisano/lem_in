@@ -6,7 +6,7 @@
 /*   By: anamsell <anamsell@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/03/16 12:49:24 by bpisano      #+#   ##    ##    #+#       */
-/*   Updated: 2018/06/25 19:53:47 by bpisano     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/06/28 16:40:16 by bpisano     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -35,10 +35,14 @@ static void	init_parse_data(t_parse *p)
 static int	get_ants(t_parse *p)
 {
 	char	*line;
-	int		ret;
 
-	while ((ret = get_next_line(0, &line)) > 0)
+	while (get_next_line(0, &line) > 0)
 	{
+		if (ft_strcmp(line, "") == 0)
+		{
+			free(line);
+			return (0);
+		}
 		if (is_ants(line))
 		{
 			p->ants = ft_atoi(line);
@@ -46,18 +50,14 @@ static int	get_ants(t_parse *p)
 			return (1);
 		}
 		else if (is_comment(line))
-		{
 			free(line);
-			continue ;
-		}
 		else
 		{
 			free(line);
 			return (0);
 		}
-		free(line);
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -70,7 +70,7 @@ static int	get_data(t_parse *p)
 
 	while (get_next_line(0, &line) > 0)
 	{
-		if (!ft_strcmp(line, ""))
+		if (ft_strcmp(line, "") == 0)
 		{
 			free(line);
 			return (1);
@@ -82,14 +82,14 @@ static int	get_data(t_parse *p)
 		else if (is_tub(line))
 			ar_append(&(p->tubs), line);
 		else if (is_comment(line))
+			free(line);
+		else
 		{
 			free(line);
-			continue ;
-		}
-		else
 			return (0);
+		}
 	}
-	return (0);
+	return (1);
 }
 
 /*
@@ -102,7 +102,12 @@ int			parse(t_data *d)
 	t_parse	parse_data;
 
 	init_parse_data(&parse_data);
-	if (!get_ants(&parse_data) || !get_data(&parse_data))
+	if (!get_ants(&parse_data))
+	{
+		handle_error(&parse_data);
+		return (0);
+	}
+	if (!get_data(&parse_data))
 	{
 		handle_error(&parse_data);
 		return (0);
