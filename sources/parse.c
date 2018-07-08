@@ -122,6 +122,7 @@ int			parse(t_data *d)
 	d->room_nbr = ar_count(parse_data.rooms);
 	d->ants = parse_data.ants;
 	d->rooms = parse_data.rooms;
+	print_parse(&parse_data);
 	free_parse(&parse_data);
 	return (1);
 }

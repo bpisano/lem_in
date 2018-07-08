@@ -109,7 +109,7 @@ void	resolve(t_data *data)
 	{
 		if (!(fill_ant(data->start, 0, data, tittake(data->start, 0, data))))
 		{
-			ft_printf("ERRORwdjhkjdh\n");
+			ft_printf("ERROR\n");
 			return ;
 		}
 		j = -1;

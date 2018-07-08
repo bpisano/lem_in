@@ -63,6 +63,7 @@ int					is_comment(char *str);
 int					is_cmd(char *str);
 int					is_ants(char *str);
 void				handle_error(t_parse *p);
+void				print_parse(t_parse *p);
 
 int					handle_cmd_room(char *line, t_parse *p);
 int					handle_cmd(char *line, t_parse *p);
